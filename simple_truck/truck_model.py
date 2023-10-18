@@ -4,13 +4,13 @@ class Truck:
         self._speed = 0
         self._weight = 10000
         self._frontal_area = 8
-        self._engine_force = 100_000
+        self._max_engine_force = 100_000
         self._throttle_percentage = 0.0
         self._is_started = False
 
     def drive(self):
         if self._is_started:
-            force_forward = self._throttle_percentage/100 * self._engine_force
+            force_forward = self._throttle_percentage/100 * self._max_engine_force
         else:
             force_forward = 0
         force_backward = self._frontal_area * self._speed**2 
@@ -37,10 +37,17 @@ class Truck:
         return self._throttle_percentage
 
     def set_throttle_percentage(self, percentage: float) -> None:
-        self._throttle_percentage = float(percentage)
+        if percentage > 100:
+            self._throttle_percentage = 100.0
+        elif percentage < 0: 
+            self._throttle_percentage = 0
+        else:
+            self._throttle_percentage = float(percentage)
         
     def lower_throttle_percentage(self, percentage: float = 10.0) -> None:
-        self._throttle_percentage -= percentage
-        if self._throttle_percentage <= 0:
-            self._throttle_percentage = 0
+        self.set_throttle_percentage -= percentage
+    
+    def raise_throttle_percentage(self, percentage: float = 10.0) -> None:
+        self.set_throttle_percentage += percentage
+
     

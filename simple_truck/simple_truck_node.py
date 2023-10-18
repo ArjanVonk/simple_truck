@@ -11,11 +11,10 @@ class SimpleTruckNode(Node):
         self.publisher_ = self.create_publisher(String, 'simple_truck_status', 10)
         self.subscription = self.create_subscription(String, 'simple_truck_listener', self.listener_callback, 10)
 
-        self.truck = Truck()
-        self.truck.start_truck()
         timer_period = 0.5
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
+        self.truck = Truck()
 
     def timer_callback(self):
         self.truck.drive()

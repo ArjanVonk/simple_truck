@@ -17,7 +17,7 @@ def test_drive():
         print(f"velocity at t= {t}: {truck.get_speed():.1f}")
         if t == 3: 
             truck.start_truck()
-            truck.set_throttle_percentage(100)
+            truck._set_throttle_percentage(100)
             truck_speed_at_3 = truck.get_speed()
         if t == 35:
             truck.turn_off_truck()
@@ -30,6 +30,6 @@ def test_drive():
             assert truck_speed_at_40 < truck_speed_at_35
             print("turned on engine again")
         if t == 60: 
-            truck.set_throttle_percentage(75)
+            truck._set_throttle_percentage(75)
             print("set throttle to 75")
  

@@ -3,7 +3,7 @@ from simple_truck.driving_model import TruckDrivingModel
 
 
 class Truck:
-    """The Truck class contains a simple truck with a driving model, and a command processer
+    """The Truck class contains a simple truck with a driving model
     """
     def __init__(self):
         self._speed = 0

@@ -9,26 +9,35 @@ class SimpleTruckNode(Node):
 
     def __init__(self):
         super().__init__('simple_truck_node')
-        self.publisher_ = self.create_publisher(String, 'simple_truck_status', 10)
-        self.subscription = self.create_subscription(String, 'simple_truck_listener', self.listener_callback, 10)
-        self.command_processor = SimpleCommandProcessor()
+        
+        # ROS communication properties
+        self.state_publisher = self.create_publisher(String, 'simple_truck/status', 10)
+        self.speed_publisher = self.create_publisher(String, 'simple_truck/speed', 10)
+        self.subscription = self.create_subscription(String, 'simple_truck/commands', self.listener_callback, 10)
         timer_period = 0.5
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
         self.truck = Truck()
+        self.command_processor = SimpleCommandProcessor()
 
     def timer_callback(self):
         self.truck.drive()
-        self.publish_info()
+        self.publish_state()
+        self.publish_speed()
 
-    def publish_info(self):
+    def publish_speed(self):
+        msg = String()
+        msg.data = str(self.truck.get_speed())
+        self.speed_publisher.publish(msg)
+
+    def publish_state(self):
         msg = String()
         msg.data = self.truck.get_status()
-        self.publisher_.publish(msg)
+        self.state_publisher.publish(msg)
         self.get_logger().info(f'{msg.data}')
 
     def listener_callback(self, msg):
-        self.get_logger().info(f'received {type("hi")}, {self.truck}')
+        self.get_logger().info(f'received {msg.data}')
         self.command_processor.process_string_command(msg.data, self.truck)
         
 

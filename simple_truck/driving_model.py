@@ -5,7 +5,7 @@ class DrivingModel(ABC):
     def calculate_speed(self, current_speed: float, throttle_percentage: float) -> float:
         return 0.0
 
-class SimpleDrivingModel(DrivingModel):
+class ElectricDrivingModel(DrivingModel):
     def __init__(self, engine_force: float = 100_000, frontal_area: float = 8.0, weight: float = 10000):
         self._max_engine_force = engine_force
         self._frontal_area = frontal_area
